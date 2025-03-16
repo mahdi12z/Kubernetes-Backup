@@ -51,8 +51,31 @@ docker run \
 ```
 # 3.1Create a bucket for Velero backups:
 
+Open your browser and navigate to the MinIO Web UI:
+```bash
+http://<NODE_IP>:9001
+```
 
+3.2. Create a New Bucket for Velero
+Once logged into the MinIO Web UI:
 
+1. Click on "Buckets" in the left sidebar.
+2. Click "Create Bucket" (usually a + button on the top right).
+3. Enter a Bucket Name (e.g., velero-backups).
+4. Set the bucket policies (e.g., keep it private unless required otherwise).
+5. Click "Create" to finalize the bucket creation.
+
+ Now the velero-bucket is created and ready for use.
+
+3.3.Obtain an Access Token for Authentication
+Instead of using static credentials (minioadmin and minioadmin), you can generate a secure Access Token for Velero.
+
+1. Navigate to "Access Keys" or "Identity Management" in MinIO Web UI.
+2. Create a new Access Key by clicking "Create New Key".
+3. Save the generated Access Key and Secret Key.
+4. Ensure that the user has the appropriate permissions for Velero to store backups.
+
+If needed, attach the Read and Write policy to the generated credentials.
 
 # 4. Install Velero in Kubernetes
 
