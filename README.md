@@ -39,13 +39,13 @@ mkdir -p ${HOME}/minio/data
 ```
 Start the MinIO container
 ```bash
-docker run \
+docker run -d \
    -p 9000:9000 \
    -p 9001:9001 \
    --user $(id -u):$(id -g) \
    --name minio1 \
    -e "MINIO_ROOT_USER=ROOTUSER" \
-   -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
+   -e "MINIO_ROOT_PASSWORD=Aress@123" \
    -v ${HOME}/minio/data:/data \
    quay.io/minio/minio server /data --console-address ":9001"
 ```
