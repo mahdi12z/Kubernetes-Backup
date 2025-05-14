@@ -44,10 +44,12 @@ docker run -d \
    -p 9001:9001 \
    --user $(id -u):$(id -g) \
    --name minio1 \
+   --restart unless-stopped \
    -e "MINIO_ROOT_USER=ROOTUSER" \
-   -e "MINIO_ROOT_PASSWORD=Aress@123" \
+   -e "MINIO_ROOT_PASSWORD=CHANGEME123" \
    -v ${HOME}/minio/data:/data \
    quay.io/minio/minio server /data --console-address ":9001"
+
 ```
 # 3.1Create a bucket for Velero backups:
 
