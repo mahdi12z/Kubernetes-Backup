@@ -198,6 +198,7 @@ http://<NODE_IP>:30999
 ```
 ctr image pull docker.io/velero/velero:v1.14.0
 ctr image pull docker.io/otwld/velero-ui:0.10.0
+ctr image pull velero/velero-plugin-for-aws:v1.10.0
 ```
 
 
