@@ -299,3 +299,11 @@ kubectl exec -n nginx-test deploy/nginx -- cat /usr/share/nginx/html/index.html
 <h1>Hello Velero</h1>
 
 ```
+
+
+```
+
+
+velero backup create n8n-backup-$(date +%F-%H%M)   --include-namespaces n8n   --default-volumes-to-fs-backup   --wait
+ velero restore create n8n-restore-test   --from-backup n8n-backup-$(date +%F-%H%M)   --namespace-mappings n8n:n8n-restore   --restore-volumes   --wait
+ ```
