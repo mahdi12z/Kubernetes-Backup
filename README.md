@@ -202,6 +202,100 @@ ctr image pull velero/velero-plugin-for-aws:v1.10.0
 ```
 
 
+---------
+--------
+test
+
+```bash
+##nginx-pvc-test.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nginx-test
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nginx-html
+  namespace: nginx-test
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  storageClassName: longhorn-2   # یا هر StorageClass موجود
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: nginx-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+          volumeMounts:
+            - name: html
+              mountPath: /usr/share/nginx/html
+      volumes:
+        - name: html
+          persistentVolumeClaim:
+            claimName: nginx-html
 
 
 
+```
+
+```bash
+kubectl apply -f nginx-pvc-test.yaml
+```
+
+
+
+```bash
+kubectl exec -n nginx-test deploy/nginx -- \
+  bash -c 'echo "<h1>Hello Velero</h1>" > /usr/share/nginx/html/index.html'
+
+kubectl exec -n nginx-test deploy/nginx -- \
+  cat /usr/share/nginx/html/index.html
+```
+
+
+```bash
+velero backup create nginx-pvc-backup --include-namespaces=nginx-test --wait
+``
+```bash
+
+kubectl exec -n nginx-test deploy/nginx -- rm /usr/share/nginx/html/index.html
+``
+
+```bash
+kubectl delete ns nginx-test --wait
+
+```
+
+```bash
+velero restore create nginx-pvc-restore --from-backup nginx-pvc-backup --wait
+```
+
+```bash
+kubectl get pods -n nginx-test
+kubectl exec -n nginx-test deploy/nginx -- cat /usr/share/nginx/html/index.html
+
+```
+``bash
+<h1>Hello Velero</h1>
+
+```
