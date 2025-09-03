@@ -147,6 +147,10 @@ velero restore logs $BACKUP_NAME
 ## 5.1 Install Velero UI using Helm
 Deploying Velero UI chart
 To install the velero-ui chart in the velero-ui namespace:
+
+```bash
+kubectl create namespace velero-ui
+```
 ```bash
 helm repo add otwld https://helm.otwld.com/
 helm repo update
