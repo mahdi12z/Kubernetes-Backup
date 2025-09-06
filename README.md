@@ -325,3 +325,17 @@ velero backup create full-backup-$(date +%F-%H%M) \
   --default-volumes-to-fs-backup \
   --wait
 ```
+
+
+
+
+```
+RESTORE_NAME="full-restore-$(date +%F-%H%M)"
+velero restore create "$RESTORE_NAME" \
+  --from-backup full-backup-2025-09-06-1308 \
+  --include-cluster-resources=true \
+  --exclude-resources apiservices,mutatingwebhookconfigurations,validatingwebhookconfigurations,endpoints,endpointslices \
+  --restore-volumes \
+  --wait
+
+```
