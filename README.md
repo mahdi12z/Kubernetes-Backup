@@ -105,7 +105,7 @@ velero install \
   --uploader-type kopia \
   --default-volumes-to-fs-backup \
   --namespace velero \
-  --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://<minio_ip>::9000
+  --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://<minio_ip>:9000
 ```
  Check Velero Pods:
 
