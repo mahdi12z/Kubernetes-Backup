@@ -204,7 +204,13 @@ ctr image pull velero/velero-plugin-for-aws:v1.10.0
 
 ---------
 --------
-test
+## Velero PVC Backup & Restore Test with Nginx
+
+This document demonstrates how to test Velero by backing up and restoring a namespace with an Nginx Deployment and a PersistentVolumeClaim (PVC).
+
+## 1. Create a test Namespace, PVC, and Deployment
+
+Create a manifest file `nginx-pvc-test.yaml`:
 
 ```bash
 ##nginx-pvc-test.yaml
@@ -253,58 +259,76 @@ spec:
         - name: html
           persistentVolumeClaim:
             claimName: nginx-html
-
-
-
 ```
+Apply the manifest:
 
 ```bash
 kubectl apply -f nginx-pvc-test.yaml
 ```
 
+-----
 
+## 2. Add sample data into the PVC
 
 ```bash
 kubectl exec -n nginx-test deploy/nginx -- \
   bash -c 'echo "<h1>Hello Velero</h1>" > /usr/share/nginx/html/index.html'
+```
 
+Verify the data:
+```bash
 kubectl exec -n nginx-test deploy/nginx -- \
   cat /usr/share/nginx/html/index.html
 ```
+Expected output:
+```bash
+<h1>Hello Velero</h1>
 
-
+```
+## 3. Create a Velero backup
 ```bash
 velero backup create nginx-pvc-backup --include-namespaces=nginx-test --wait
 ```
+
+## 4. Simulate data loss
+
+Remove the file:
 
 ```bash
 
 kubectl exec -n nginx-test deploy/nginx -- rm /usr/share/nginx/html/index.html
 ```
-
+Delete the namespace:
 ```bash
 kubectl delete ns nginx-test --wait
 
 ```
+## 5. Restore the namespace and data from backup
 
+Run the restore:
 ```bash
 velero restore create nginx-pvc-restore --from-backup nginx-pvc-backup --wait
 ```
-
+Check the restored pod:
 ```bash
 kubectl get pods -n nginx-test
-kubectl exec -n nginx-test deploy/nginx -- cat /usr/share/nginx/html/index.html
-
 ```
-
+Verify the restored file:
+```bash
+kubectl exec -n nginx-test deploy/nginx -- cat /usr/share/nginx/html/index.html
+```
+Expected output:
 ```bash
 <h1>Hello Velero</h1>
 
 ```
+✅ **Result**: Velero successfully restored the Nginx Deployment, PVC, and data.
 
 
 
 
+----
+----
 ```
 velero backup create n8n-backup-$(date +%F-%H%M)   --include-namespaces n8n   --default-volumes-to-fs-backup   --wait
 
