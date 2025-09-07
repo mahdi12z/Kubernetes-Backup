@@ -275,11 +275,12 @@ kubectl exec -n nginx-test deploy/nginx -- \
 
 ```bash
 velero backup create nginx-pvc-backup --include-namespaces=nginx-test --wait
-``
+```
+
 ```bash
 
 kubectl exec -n nginx-test deploy/nginx -- rm /usr/share/nginx/html/index.html
-``
+```
 
 ```bash
 kubectl delete ns nginx-test --wait
@@ -295,15 +296,16 @@ kubectl get pods -n nginx-test
 kubectl exec -n nginx-test deploy/nginx -- cat /usr/share/nginx/html/index.html
 
 ```
+
 ```bash
 <h1>Hello Velero</h1>
 
 ```
 
 
+
+
 ```
-
-
 velero backup create n8n-backup-$(date +%F-%H%M)   --include-namespaces n8n   --default-volumes-to-fs-backup   --wait
 
  velero restore create n8n-restore-test   --from-backup n8n-backup-$(date +%F-%H%M)   --namespace-mappings n8n:n8n-restore   --restore-volumes   --wait
