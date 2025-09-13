@@ -195,6 +195,11 @@ http://<NODE_IP>:30999
 ```
 
 
+```bash
+username:admin
+password:admin
+```
+
 ```
 ctr image pull docker.io/velero/velero:v1.14.0
 ctr image pull docker.io/otwld/velero-ui:0.10.0
