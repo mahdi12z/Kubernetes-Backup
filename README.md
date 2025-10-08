@@ -107,6 +107,32 @@ velero install \
   --namespace velero \
   --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=http://<minio_ip>:9000
 ```
+
+
+### for minio in kuber
+
+```bash
+kubectl get svc -n tenant-ns
+NAME              TYPE        CLUSTER-IP       PORT(S)    AGE
+minio-access      ClusterIP   10.111.240.43    9000/TCP   23m
+```
+
+
+```bash
+
+velero install \
+  --provider aws \
+  --image velero/velero:v1.14.0 \
+  --plugins velero/velero-plugin-for-aws:v1.10.0 \
+  --bucket velero-backups \
+  --secret-file ./credentials-velero \
+  --use-node-agent \
+  --use-volume-snapshots=false \
+  --uploader-type kopia \
+  --default-volumes-to-fs-backup \
+  --namespace velero \
+  --backup-location-config region=minio,s3ForcePathStyle="true",s3Url=https://<ip>:9000,insecureSkipTLSVerify=true
+```
  Check Velero Pods:
 
 ```bash
