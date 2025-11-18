@@ -156,6 +156,24 @@ velero backup logs $BACKUP_NAME
 velero get backup
 
 ```
+## Or
+
+```bash
+
+#!/bin/bash
+
+BACKUP_NAME="full-cluster-backup-$(date +%Y.%m.%d-%H.%M)"
+
+velero backup create $BACKUP_NAME --ttl 72h --wait
+
+velero backup describe $BACKUP_NAME
+velero backup logs $BACKUP_NAME
+
+velero get backup
+
+```
+
+
 Restore from the backup:
 ```bash
 # Restore from a Velero backup using the specified backup name
