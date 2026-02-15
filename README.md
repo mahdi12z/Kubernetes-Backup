@@ -20,7 +20,7 @@ Installed CLI tools: velero and mc (MinIO Client)
 ```bash
 wget https://github.com/vmware-tanzu/velero/releases/download/v1.17.2/velero-v1.17.2-linux-amd64.tar.gz
 tar -xzf velero-v1.17.2-linux-amd64.tar.gz
-sudo mv velero-v1.14.0-linux-amd64/velero /usr/local/bin/
+sudo mv velero-v1.17.2-linux-amd64/velero /usr/local/bin/
 
 velero version
 ```
