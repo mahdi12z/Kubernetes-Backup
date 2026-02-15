@@ -98,7 +98,7 @@ EOF
 velero install \
   --provider aws \
   --image velero/velero:v1.14.0 \
-  --plugins velero/velero-plugin-for-aws:v1.10.0 \
+  --plugins velero/velero-plugin-for-aws:v1.13.0 \
   --bucket velero-backups \
   --secret-file ./credentials-velero \
   --use-node-agent \
